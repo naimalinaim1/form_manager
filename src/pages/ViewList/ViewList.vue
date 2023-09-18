@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
-    <h2 class="text-center my-5">View list</h2>
-    <table class="table">
+  <div class="container mt-5">
+    <VueListSetting />
+    <table class="table mt-5">
       <thead>
         <tr>
           <th scope="col">Current Status</th>
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="(data, index) in viewData" :key="index">
           <td scope="row">
             <select class="form-select">
               <option value="submitted/pending">Submitted/Pending</option>
@@ -21,62 +21,18 @@
             </select>
           </td>
           <td>
-            <p><span class="fw-bold">Code:</span> SB124045</p>
-            <p><span class="fw-bold">Full Name:</span> Charles Selestin</p>
-            <p><span class="fw-bold">Email:</span> naim@gmail.com</p>
+            <p><span class="fw-bold">Code:</span> {{ data.submission_code }}</p>
+            <p><span class="fw-bold">Full Name:</span> {{ data.full_name }}</p>
+            <p><span class="fw-bold">Email:</span> {{ data.email }}</p>
           </td>
           <td>
-            <p><span class="fw-bold">Organization:</span> It Company</p>
-            <p><span class="fw-bold">Designation:</span> Adviser</p>
-            <p><span class="fw-bold">Country:</span> United Kindom</p>
-          </td>
-          <td></td>
-          <td>No</td>
-          <td>
-            <a class="btn btn-success me-2">Edit</a>
-            <a class="btn btn-warning">View</a>
-          </td>
-        </tr>
-        <tr>
-          <td scope="row">
-            <select class="form-select">
-              <option value="submitted/pending">Submitted/Pending</option>
-              <option value="confirmed">Confirmed</option>
-            </select>
-          </td>
-          <td>
-            <p><span class="fw-bold">Code:</span> SB124045</p>
-            <p><span class="fw-bold">Full Name:</span> Charles Selestin</p>
-            <p><span class="fw-bold">Email:</span> naim@gmail.com</p>
-          </td>
-          <td>
-            <p><span class="fw-bold">Organization:</span> It Company</p>
-            <p><span class="fw-bold">Designation:</span> Adviser</p>
-            <p><span class="fw-bold">Country:</span> United Kindom</p>
-          </td>
-          <td></td>
-          <td>No</td>
-          <td>
-            <a class="btn btn-success me-2">Edit</a>
-            <a class="btn btn-warning">View</a>
-          </td>
-        </tr>
-        <tr>
-          <td scope="row">
-            <select class="form-select">
-              <option value="submitted/pending">Submitted/Pending</option>
-              <option value="confirmed">Confirmed</option>
-            </select>
-          </td>
-          <td>
-            <p><span class="fw-bold">Code:</span> SB124045</p>
-            <p><span class="fw-bold">Full Name:</span> Charles Selestin</p>
-            <p><span class="fw-bold">Email:</span> naim@gmail.com</p>
-          </td>
-          <td>
-            <p><span class="fw-bold">Organization:</span> It Company</p>
-            <p><span class="fw-bold">Designation:</span> Adviser</p>
-            <p><span class="fw-bold">Country:</span> United Kindom</p>
+            <p>
+              <span class="fw-bold">Organization:</span> {{ data.organization }}
+            </p>
+            <p>
+              <span class="fw-bold">Designation:</span> {{ data.designation }}
+            </p>
+            <p><span class="fw-bold">Country:</span> {{ data.country }}</p>
           </td>
           <td></td>
           <td>No</td>
@@ -91,10 +47,40 @@
 </template>
 
 <script>
-export default {};
+import VueListSetting from "./VueListSetting.vue";
+export default {
+  components: {
+    VueListSetting,
+  },
+
+  data() {
+    return {
+      viewData: [],
+    };
+  },
+
+  methods: {
+    getData() {
+      fetch("http://localhost/php/api/")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.status == "true") {
+            this.viewData = data.data;
+          }
+        });
+    },
+  },
+
+  mounted() {
+    this.getData();
+  },
+};
 </script>
 
 <style>
+th {
+  background: rgb(238, 232, 232) !important;
+}
 td p {
   margin: 0;
   font-size: 15px;

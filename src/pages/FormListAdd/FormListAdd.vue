@@ -116,7 +116,6 @@
   </section>
 </template>
 
-
 <script>
 export default {
   data() {
@@ -134,7 +133,44 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log(this.formListAddField.code);
+      const url = "http://localhost/php/api/";
+      const jsonData = JSON.stringify(this.formListAddField);
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const requestOptions = {
+        method: "POST",
+        headers: headers,
+        body: jsonData,
+      };
+
+      // Send the POST request using the fetch API
+      fetch(url, requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data?.status == "true") {
+            alert("Successful");
+            // cear form data
+            this.formListAddField = {
+              code: "",
+              fullName: "",
+              email: "",
+              organization: "",
+              designation: "",
+              country: "",
+              message: "",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error("There was a problem with the fetch operation:", error);
+          alert("Problem");
+        });
     },
   },
 };

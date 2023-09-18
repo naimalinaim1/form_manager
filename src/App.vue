@@ -2,12 +2,14 @@
 import Navbar from "./components/header/Navbar.vue";
 import FormListAdd from "./pages/FormListAdd/FormListAdd.vue";
 import ViewList from "./pages/ViewList/ViewList.vue";
+import EditItem from "./pages/EditItem/EditItem.vue";
 
 export default {
   components: {
     Navbar,
     FormListAdd,
     ViewList,
+    EditItem,
   },
 
   data() {
@@ -36,6 +38,7 @@ export default {
     </div>
     <FormListAdd v-if="page === 'add'" />
     <ViewList v-if="page === 'view'" />
+    <EditItem v-if="page === 'edit'" />
   </main>
 </template>
 

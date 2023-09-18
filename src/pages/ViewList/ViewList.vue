@@ -37,7 +37,7 @@
           <td></td>
           <td>No</td>
           <td>
-            <a class="btn btn-success me-2">Edit</a>
+            <a :href="'/edit?status=edit&id=' + data.id" class="btn btn-success me-2">Edit</a>
             <a class="btn btn-warning">View</a>
           </td>
         </tr>
